@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const port = 3000
 
@@ -18,6 +19,7 @@ const requestTime = function(req,res,next) {
 
 app.use(express.static('public'));
 app.use(express.static('files'));
+app.use(cors())
 
 app.use(myLogger);
 app.use(requestTime);
@@ -100,8 +102,6 @@ app.get('/students',(req,res) => {
       ]
       );
 })
-
-
 
 app.listen(port,() => {
     console.log(`server running at port : ${port}`)
