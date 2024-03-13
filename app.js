@@ -1,10 +1,35 @@
 const express = require('express')
 const cors = require('cors')
+const mysql = require('mysql')
 const app = express()
 const port = 3000
 
 
 
+
+const connection = mysql.createConnection({
+    host:'localhost',
+    port: 3306,
+    user: 'root',
+    password:'Zafer1998@',
+    database:'learncs'
+});
+
+connection.connect(function(err) {
+    if(err) {
+        console.error('error connecting : ' + err.stack);
+        return;
+    }
+    console.log('connected as id ' + connection.threadId);
+});
+
+
+connection.query('SELECT * FROM CUSTOMERS',function (error,results,fields) {
+    if(error) throw error;
+    console.log('THE Customer IS ',results[0]);
+})
+
+connection.end();
 
 const myLogger = function(req,res,next) {
     console.log('LOGGED');
@@ -16,10 +41,14 @@ const requestTime = function(req,res,next) {
     next();
 }
 
+var corsOptions = {
+    origin:['http://localhost:3000','http://localhost:5500']
+};
+
 
 app.use(express.static('public'));
 app.use(express.static('files'));
-app.use(cors())
+app.use(cors(corsOptions))
 
 app.use(myLogger);
 app.use(requestTime);
