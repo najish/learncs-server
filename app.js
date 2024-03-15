@@ -11,18 +11,20 @@ const app = express();
 const port = process.env.PORT || 3001;
 const studentRouter = require('./routers/studentRouter');
 const customerRouter = require('./routers/customerRouter');
+const testRouter = require('./routers/testRouter.js');
 
 
 
 
-
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan('combined'));
 app.use(express.static("public"));
 app.use(express.static("files"));
 app.use(cors());
 app.use('/students',studentRouter);
 app.use('/customers',customerRouter);
+app.use('/tests',testRouter);
 
 app.use(session({
   resave:false,

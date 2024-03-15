@@ -5,10 +5,11 @@ const customerRouter = express.Router();
 
 
 customerRouter.get('/',(req,res) => {
-  pool.query('SELECT * FROM CUSTOMERS',((error,customers) => {
+    pool.query('SELECT * FROM CUSTOMERS',((error,customers) => {
         if(error) throw error;
         res.json(customers);
     }));
+
 });  
 
 
@@ -17,16 +18,19 @@ customerRouter.get("/:id",(req,res) => {
     pool.query(`select * from customers where id = ${customerId}`,(error,customer) => {
         if(error) throw error;
         res.json(customer)
-    })
+    });
+    pool.end();
 });
 
 
 customerRouter.post("/",(req,res) => {
-    console.log(req.body.CustomerName);
-    console.log(req.body.Email);
-    console.log(req.body.Phone);
-    console.log(req.body.Address);
-    res.send("CustomerName");
+    var customer = req.body;
+    pool.getConnection();
+    pool.query('INSERT INTO CUSTOMERS SET ?',customer,(error,results) => {
+        if(error) throw error;
+    });
+    res.send("customer added");
 });
+
 
 module.exports = customerRouter;
