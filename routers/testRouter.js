@@ -15,7 +15,6 @@ testRouter.get('/:id',(req,res) => {
 testRouter.post('/',(req,res) => {
     console.log(req.body.name);
     console.log(req.body.age);
-    console.log(req.body);
     res.send("Method : post test data")
 });
 
