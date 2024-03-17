@@ -6,7 +6,6 @@ const cors = require("cors");
 const bodyParser = require('body-parser');
 const pool = require('./public/js/db.js');
 
-
 const app = express();
 const port = process.env.PORT || 3001;
 const studentRouter = require('./routers/studentRouter');
