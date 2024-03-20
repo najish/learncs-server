@@ -5,12 +5,13 @@ const session = require('express-session');
 const cors = require("cors");
 const bodyParser = require('body-parser');
 const pool = require('./public/js/db.js');
-
+const axios = require('axios');
 const app = express();
 const port = process.env.PORT || 3001;
 const studentRouter = require('./routers/studentRouter');
 const customerRouter = require('./routers/customerRouter');
 const testRouter = require('./routers/testRouter.js');
+const personRouter = require('./routers/personRouter.js');
 
 
 
@@ -24,6 +25,7 @@ app.use(cors());
 app.use('/students',studentRouter);
 app.use('/customers',customerRouter);
 app.use('/tests',testRouter);
+app.use('/persons',personRouter);
 
 app.use(session({
   resave:false,
@@ -31,7 +33,7 @@ app.use(session({
   secret:'SECRET'
 }));
 
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+bodyParser.urlencoded({ extended: false })
 
 app.post('/name', (req, res) =>  {
   var bodyData = req.body;
@@ -45,6 +47,10 @@ app.get("/", (req, res) => {
 });
 
 
+app.get('/axios',(req,res) => {
+  res.send("hello from axios");
+})
+
 app.get('/users',((req,res) => {
   pool.query('SELECT * FROM CUSTOMERS',(err,results) => {
     if(err) throw err;
@@ -52,6 +58,10 @@ app.get('/users',((req,res) => {
   });
 }));
 
+
+app.post('/login',(req,res) => {
+  res.json(req.body);
+});
 
 // app.post("/name", (req, res) => {
 //   console.log(req.body.name);
