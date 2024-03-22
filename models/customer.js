@@ -1,42 +1,104 @@
-class customer {
-    constructor(CustomerName,Phone,Email,Address) {
-        this.CustomerName = CustomerName;
-        this.Phone = Phone;
-        this.Email = Email;
-        this.Address = Address;
+const {DataTypes} = require('sequelize');
+const {sequelize} = require('../config/sequelize/database.js');
+
+const CustomerModel = sequelize.define('customer',{
+    id : {
+        type:DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true 
+    },
+
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
+    age: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+
+    phone: {
+        type: DataTypes.BIGINT(10),
+        allowNull: true
+    },
+
+    email: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+
+    address: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+},{
+    timestamps: false,
+    freezeTableName: true
+});
+
+
+CustomerModel.sync({alter:true});
+
+
+
+
+class Customer {
+    constructor(id,name,age,phone,email,address) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
     }
 
-    getCustomerName() {
-        return this.CustomerName;
+    getId () {
+        return this.id;
+    }
+    
+
+
+    getName() {
+        return this.name;
     }
 
-    setCustomerName(CustomerName) {
-        this.CustomerName = CustomerName;
+    setName(name) {
+        this.name = name;
+    }
+
+    getAge() {
+        return this.age;
+    }
+
+
+    setAge(age) {
+        this.age = age;
     }
 
     getPhone() {
-        return this.Phone;
+        return this.phone;
+    }
+    setPhone(phone) {
+        this.phone = phone;
     }
 
-    setPhone(Phone) {
-        this.Phone = Phone;
+    getEmail () {
+        return this.email;
     }
 
-
-    getEmail() {
-        return this.Email;
+    setEmail(email) {
+        this.email = email;
     }
-
-    setEmail(Email) {
-        this.Email = Email;
-    }
-
 
     getAddress() {
-        return this.Address;
+        return this.address;
     }
 
-    setAddress(Address) {
-        this.Address = Address;
+    setName(address) {
+        this.address = address;
     }
+
 }
+
+module.exports = {Customer, CustomerModel};
